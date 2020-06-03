@@ -48,11 +48,11 @@ $(document).ready(function () {
   const xSPAN = 100;
   const ySPAN = 60;
   const gridGAP = 10;
-  const populationCOUNT = 500;
-  const cycleRATE = 200;
+  const populationCOUNT = 200;
+  const cycleRATE = 66;
   const cycleCAP = 150;
   const generationCAP = 200000;
-  const mutationRATE = 0.05;
+  const mutationRATE = 0.02;
   const obstacleCOUNT = 10;
   grid.start(xSPAN, ySPAN, gridGAP, populationCOUNT, mutationRATE, obstacleCOUNT);
   evolve(cycleRATE, cycleCAP, generationCAP);
