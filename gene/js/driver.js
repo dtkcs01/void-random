@@ -1,5 +1,6 @@
 var Driver = function () {
   this.agents = [];
+  this.statistics = null;
   for(let i = 0; i < GlobalConstants.agentsNum; i++) {
     this.agents.push(new Agent(false));
   }
@@ -29,6 +30,23 @@ var Driver = function () {
     return flag;
   };
 
+  this.updateStatistics = (statistics) => {
+    document.getElementById('gen_num').innerHTML = parseInt(document.getElementById('gen_num').innerHTML.trim())+1;
+    document.getElementById('min_dist').innerHTML = statistics.distance.min;
+    document.getElementById('avg_dist').innerHTML = statistics.distance.avg;
+    document.getElementById('max_dist').innerHTML = statistics.distance.max;
+    document.getElementById('min_time').innerHTML = statistics.time.min;
+    document.getElementById('max_time').innerHTML = statistics.time.max;
+    if(this.statistics) {
+      document.getElementById('min_dist_parent').className = statistics.distance.min < this.statistics.distance.min ? 'success': 'danger';
+      document.getElementById('avg_dist_parent').className = statistics.distance.avg < this.statistics.distance.avg ? 'success': 'danger';
+      document.getElementById('max_dist_parent').className = statistics.distance.max  < this.statistics.distance.max ? 'success': 'danger';
+      document.getElementById('min_time_parent').className = statistics.time.min < this.statistics.time.min ? 'success': 'danger';
+      document.getElementById('max_time_parent').className = statistics.time.max < this.statistics.time.max ? 'success': 'danger';
+    }
+    this.statistics = statistics;
+  };
+
   this.deriveStatistics = () => {
     let distances = this.agents.map(x => x.distanceFromTarget);
     let times = this.agents.map(x => x.time);
@@ -46,6 +64,7 @@ var Driver = function () {
     statistics.time.max = ( statistics.time.min === statistics.time.max)? statistics.time.max + 1: statistics.time.max;
     statistics.distance.max = Math.min(2*statistics.distance.avg - statistics.distance.min, statistics.distance.max);
     statistics.distance.maxExp = Math.exp(statistics.distance.max);
+    this.updateStatistics(statistics);
     return statistics;
   };
 

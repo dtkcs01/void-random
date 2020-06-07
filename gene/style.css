@@ -9,9 +9,29 @@ canvas {
   top: 0;
   left: 0;
 }
+table {
+  position: absolute !important;
+  top: 10px;
+  left: 10px;
+  opacity: 0.5;
+}
 table, th, td {
-  border: 2px solid white;
-  padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
+  border-color: solid white;
+  color: white !important;
+}
+
+.danger th {
+  color: #FFA500 !important;
+}
+
+.danger td {
+  color: #FFA500 !important;
+}
+
+.success th {
+  color: #32CD32 !important;
+}
+
+.success td {
+  color: #32CD32 !important;
 }

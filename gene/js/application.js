@@ -45,8 +45,9 @@ var Grid = {
         if(!continue_flag || this.current_cycle >= GlobalConstants.maxCycles) {
           clearInterval(cycles);
           let statistics = this.driver.migrateGeneration();
-          console.log(statistics);
-          this.evolve();
+          if(this.driver.statistics.distance.min > 0) {
+            this.evolve();
+          }
         }
       }, GlobalConstants.refreshRate);
     }
