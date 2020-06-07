@@ -71,7 +71,7 @@ class FormDataHandler {
         let dot = this.validators.colsNum.val * this.validators.rowsNum.val;
         let switchCase = {
           '-1': () => { return sum; },
-          '0': () => { return dot / sum >> 0; },
+          '0': () => { return (dot + sum)/2 >> 0; },
           '1': () => { return dot; }
         }
         return switchCase[driver]();
@@ -148,5 +148,5 @@ var GlobalConstants = {
   agentColor: '#FFFFFF',
   targetAgentColor: '#00FF00',
   obstacleColor: '#FF0000',
-  obstaclesNum: 10
+  obstaclesNum: 20
 };

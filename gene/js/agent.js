@@ -24,10 +24,24 @@ var Agent = function(isTarget) {
     }
   };
 
+  this.detectCollision = () => {
+    if(! this.hitByObstacle) {
+      for(let i = 0; i < Grid.blockers.obstacles.length; i++) {
+        let obstacle = Grid.blockers.obstacles[i];
+        if(this.x >= obstacle.x && this.x <= obstacle.x + obstacle.w) {
+          if(this.y >= obstacle.y && this.y <= obstacle.y + obstacle.h) {
+            this.hitByObstacle = true;
+          }
+        }
+      }
+    }
+  };
+
   this.update = () => {
     let v = this.vectors[this.y][this.x];
     let x = this.x + v[0];
     let y = this.y + v[1];
+    this.detectCollision();
     if(!this.stopped && !this.hitByObstacle && x < GlobalConstants.colsNum && y < GlobalConstants.rowsNum && y >= 0) {
       this.detectAndRemoveCycle(x, y);
       this.x = x;

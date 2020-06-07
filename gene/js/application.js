@@ -3,14 +3,19 @@ var Grid = {
   driver: null,
   blockers: null,
   current_cycle: 0,
+  mouse_down: false,
   current_generation: 0,
   start: function () {
     this.canvas.width = GlobalConstants.colsNum*GlobalConstants.gridGap;
     this.canvas.height = GlobalConstants.rowsNum*GlobalConstants.gridGap;
     this.context = this.canvas.getContext('2d');
-    this.driver = new Driver();
     this.blockers = new Blockers();
+    if(GlobalConstants.areObjectsRandom) {
+      this.blockers.randomiseObstacle();
+    }
+    this.driver = new Driver();
     this.evolve();
+    this.mouseListner();
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
   },
   update: function () {
@@ -45,5 +50,36 @@ var Grid = {
         }
       }, GlobalConstants.refreshRate);
     }
+  },
+  mouseListner: function () {
+    let doc = $(document);
+    doc.mousedown((event) => {
+      this.mouse_down = true;
+      let obstacle = new Obstacle();
+      obstacle.x = event.pageX/GlobalConstants.gridGap>>0;
+      obstacle.y = event.pageY/GlobalConstants.gridGap>>0;
+      obstacle.w = 0;
+      obstacle.h = 0;
+      this.blockers.obstacles.push(obstacle);
+    });
+    doc.mousemove((event) => {
+      if (this.mouse_down) {
+        let obstacle = this.blockers.obstacles[this.blockers.obstacles.length - 1];
+        obstacle.w = (event.pageX/GlobalConstants.gridGap>>0) - obstacle.x;
+        obstacle.h = (event.pageY/GlobalConstants.gridGap>>0) - obstacle.y;
+      }
+    });
+    doc.mouseup((event) => {
+      let obstacle = this.blockers.obstacles[this.blockers.obstacles.length - 1];
+      if(obstacle.w < 0) {
+        obstacle.x = obstacle.x + obstacle.w;
+        obstacle.w = -obstacle.w;
+      }
+      if(obstacle.h < 0) {
+        obstacle.y = obstacle.y + obstacle.h;
+        obstacle.h = -obstacle.h;
+      }
+      this.mouse_down = false;
+    });
   }
 }

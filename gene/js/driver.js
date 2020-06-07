@@ -43,6 +43,7 @@ var Driver = function () {
         max: Math.max(...times)
       }
     }
+    statistics.time.max = ( statistics.time.min === statistics.time.max)? statistics.time.max + 1: statistics.time.max;
     statistics.distance.max = Math.min(2*statistics.distance.avg - statistics.distance.min, statistics.distance.max);
     statistics.distance.maxExp = Math.exp(statistics.distance.max);
     return statistics;
